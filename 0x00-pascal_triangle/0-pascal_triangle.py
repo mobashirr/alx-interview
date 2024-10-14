@@ -17,9 +17,6 @@ def pascal_triangle(n):
             continue
         elif (row > 0):
             for j in range(1,row):
-                # note: when ever you retrive kind of a serial its better to
-                # start from 1 to the index
-                # get elements j and j-1 to avoid out of range 
                 elements.append(tringle[row-1][j-1] + tringle[row-1][j])
         elements.append(1)
         tringle.append(elements)
