@@ -27,9 +27,12 @@ def canUnlockAll(boxes):
             # if the node haven't been visited then do
             visited.add(node)
         
-        # append the children of the cuurent node to stack if its not explored yet and check index range
-        for node < size and child in boxes[node]:
-            if not child in visited:
-                stack.append(child)
+
+        # check if the node is valid index of boxes
+        if node < size:
+            # append the children of the cuurent node to stack if its not explored yet
+            for child in boxes[node]:
+                if not child in visited:
+                    stack.append(child)
 
     return  size == len(visited)
