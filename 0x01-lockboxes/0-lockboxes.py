@@ -18,7 +18,6 @@ def canUnlockAll(boxes):
     if not boxes: return
 
     size = len(boxes)
-    print('starting the loop:')
     while(stack):
 
         node = stack.pop() # get the current node we want to explore
