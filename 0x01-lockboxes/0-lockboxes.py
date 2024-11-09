@@ -18,13 +18,14 @@ def canUnlockAll(boxes):
     if not boxes: return
 
     size = len(boxes)
-
+    print('starting the loop:')
     while(stack):
 
         node = stack.pop() # get the current node we want to explore
 
-        if not node in visited:
-            # if the node haven't been visited then do
+        if not node in visited and node < size:
+            # if the node haven't been visited then do so
+            # also if the node is bigger than the size of our boxes don't visit it
             visited.add(node)
         
 
@@ -36,3 +37,16 @@ def canUnlockAll(boxes):
                     stack.append(child)
 
     return  size == len(visited)
+
+
+if __name__ == "__main__":
+    boxes = []
+
+    keys = []
+    for n in range(1, 1000):
+        keys = []
+        for m in range(1, 1000):
+            keys.append(m)
+        boxes.append(keys)
+
+    print(canUnlockAll(boxes))
