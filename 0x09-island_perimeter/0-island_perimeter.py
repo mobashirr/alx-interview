@@ -8,7 +8,7 @@ island perimeter problem
 from typing import List
 
 
-def islandPerimeter(self, grid: List[List[int]]) -> int:
+def island_perimeter(self, grid: List[List[int]]) -> int:
     '''
     this function takes 2d array represent island sourounded by water
 
