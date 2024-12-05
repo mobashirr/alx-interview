@@ -6,7 +6,7 @@ Island Perimeter Problem
 from typing import List
 
 
-def island_perimeter(self, grid: List[List[int]]) -> int:
+def island_perimeter(grid: List[List[int]]) -> int:
     """
     Calculate the perimeter of an island represented in a 2D grid.
 
