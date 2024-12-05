@@ -1,60 +1,56 @@
 #!/usr/bin/python3
-
-'''
-island perimeter problem
-'''
-
+"""
+Island Perimeter Problem
+"""
 
 from typing import List
 
 
 def island_perimeter(self, grid: List[List[int]]) -> int:
-    '''
-    this function takes 2d array represent island sourounded by water
+    """
+    Calculate the perimeter of an island represented in a 2D grid.
 
-    grid:
-        2d array represent the island -> 1 and the water -> 0
-    Return:
-        return the perimeter of the island
+    Args:
+        grid: A 2D list where 1 represents land and 0 represents water.
 
-    '''
-    min_h, max_h = (0, len(grid))
-    min_h, max_h = (0, len(grid))
-    min_h, max_h = (0, len(grid))
-    min_w, max_w = (0, len(grid[0]))
+    Returns:
+        The perimeter of the island.
+    """
+    min_h, max_h = 0, len(grid)
+    min_w, max_w = 0, len(grid[0])
     perimeter = 0
 
-    for idx, row in enumerate(grid):
-        for idx2, col in enumerate(row):
-            if col == 0:
+    for row_idx, row in enumerate(grid):
+        for col_idx, cell in enumerate(row):
+            if cell == 0:
                 continue
-            elif col == 1:
-                #   calulate the perimeter
-                # right
-                if (idx2 + 1) < max_w:
-                    if row[idx2 + 1] == 0:
-                        perimeter += 1  # case land souronded by water
-                else:
-                    perimeter += 1  # case last col
 
-                # left
-                if (idx2 - 1) >= min_w:
-                    if row[idx2 - 1] == 0:
-                        perimeter += 1   # case land souronded by water
-                else:
-                    perimeter += 1  # case first col is land
+            # Right
+            if col_idx + 1 < max_w:
+                if row[col_idx + 1] == 0:
+                    perimeter += 1  # Land surrounded by water
+            else:
+                perimeter += 1  # Last column
 
-                # up
-                if (idx - 1) >= min_h:
-                    if grid[idx - 1][idx2] == 0:
-                        perimeter += 1  # case land
-                else:
-                    perimeter += 1  # case first row
+            # Left
+            if col_idx - 1 >= min_w:
+                if row[col_idx - 1] == 0:
+                    perimeter += 1  # Land surrounded by water
+            else:
+                perimeter += 1  # First column
 
-                # down
-                if (idx + 1) < max_h:
-                    if grid[idx + 1][idx2] == 0:
-                        perimeter += 1  # case land
-                else:
-                    perimeter += 1  # case last row
+            # Up
+            if row_idx - 1 >= min_h:
+                if grid[row_idx - 1][col_idx] == 0:
+                    perimeter += 1  # Land surrounded by water
+            else:
+                perimeter += 1  # First row
+
+            # Down
+            if row_idx + 1 < max_h:
+                if grid[row_idx + 1][col_idx] == 0:
+                    perimeter += 1  # Land surrounded by water
+            else:
+                perimeter += 1  # Last row
+
     return perimeter
