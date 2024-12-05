@@ -3,6 +3,7 @@
 Island Perimeter Problem
 """
 
+
 def island_perimeter(grid: list) -> int:
     """
     Calculate the perimeter of an island represented in a 2D grid.
