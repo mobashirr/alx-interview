@@ -1,93 +1,73 @@
 #!/usr/bin/python3
 
 '''
-    prime game problem
+this problem is about a game in which two players will play
+by the same order each time for given rounds (x)
+
+in each round there will be a given numer (n)
+and the p1 will choose prime number in range from (0-n)
+then that number marked as selected
+the first player who can't choose any prime number will be loser of the round
+for given rounds (x) where x is the number of rounds
+and a list (nums) contain n's for each round find the winner of all round
+
+
+the solution:
+-> first i used algorithm called sieve of eratosthenes
+ to determine the prime number less that n
+beautifull algorithm that takes O(nlog(n)log(n))
+
+-> then the apprach to determine the winner in each round
+is by culclating the number  of primes in each round
+if the numer is even then the player2 will by last one to select
+hence player2 won the round if its odd player1 won the round
+this is O(x) solution where x is the number of rounds
+
+overall it takes O(nlog(n)log(n) + x) to solve this problem.
 '''
 
 
-import math
-
-
-def prime(n):
-    '''
-    find prime number from range 0 to n
-    @n: limit
-    Return: list of boolean of nummbers that are prime
-    '''
-    if n < 0:
-        return []
-    elif n <= 1:
-        return [False]
-
-    nums = [True for _ in range(n+1)]
-    num = 2
-    nums[0] = False
-    nums[1] = False
-
-    while(num < math.sqrt(n)):
-        if nums[num]:
-            # the nummber is not marked so its prime then we update the array
-            for mul in range(num ** 2, n + 1, num):
-                '''mark all mul of that numer as composite'''
-                nums[mul] = False
-        num += 1
-    return nums
-
-
-def req_sol(turn, primes):
-    '''
-    @primes: list of prime numbers
-    '''
-    if len(primes) == 0:
-        # base case which is the player don't have any prime number to choose
-        if turn == 1:
-            # this mean our p1 did not won
-            return False
-        else:
-            return True
-
-    winner = False
-    for prime in primes:
-        if turn == 1:
-            primes = list(filter(lambda x: (x != prime)), primes)
-            winner = req_sol(2, primes)
-        elif turn == 2:
-            primes = list(filter(lambda x: (x != prime), primes))
-            winner = req_sol(1, primes)
-
-        if winner:
-            return False
-
-    return True
+def sieve_of_eratosthenes(n):
+    """Returns a list of boolean"""
+    primes = [True] * (n + 1)
+    primes[0] = primes[1] = False  # 0 and 1 are not prime
+    for i in range(2, int(n ** 0.5) + 1):
+        if primes[i]:
+            for j in range(i * i, n + 1, i):
+                # mark all multiplecation of any prime number as composite
+                primes[j] = False
+    return primes
 
 
 def isWinner(x, nums):
-    '''
-    prime game check winner
-    @x: number of roundes to play
-    @nums: array contain n for each round
-    Return: the winner
-    '''
-    p1, p2 = 0, 0
+    """Determines the winner of the prime game."""
+    if not nums or x < 1:
+        return None
 
-    for round in range(x):
-        prime_list = []
-        # for each round
-        for ind, num in enumerate(prime(nums[round])):
-            if num:
-                prime_list.append(ind)
+    max_n = max(nums)
+    primes = sieve_of_eratosthenes(max_n)
 
-        # print(prime_list)
-        winner = req_sol(1, prime_list)
+    # Precompute the cumulative prime counts
+    prime_counts = [0] * (max_n + 1)
+    for i in range(1, max_n + 1):
+        prime_counts[i] = prime_counts[i - 1] + (1 if primes[i] else 0)
 
-        if winner:
-            # print(f'round {round} p1 won')
-            p1 += 1
+    maria_wins = 0
+    ben_wins = 0
+
+    for n in nums:
+        # Number of primes up to `n`
+        prime_count = prime_counts[n]
+
+        # If prime count is odd, Maria wins (she starts); if even, Ben wins
+        if prime_count % 2 == 1:
+            maria_wins += 1
         else:
-            # print(f'round {round} p2 won')
-            p2 += 1
+            ben_wins += 1
 
-    if p2 > p1:
-        return 'Ben'
+    if maria_wins > ben_wins:
+        return "Maria"
+    elif ben_wins > maria_wins:
+        return "Ben"
     else:
-        return 'Maria'
+        return None
