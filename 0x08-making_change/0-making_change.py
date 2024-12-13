@@ -4,6 +4,7 @@
 make change problem with greedy solution
 '''
 
+
 def makeChange(coins, total):
     """
     Calculate the minimum number of coins needed to make the total.
@@ -11,21 +12,19 @@ def makeChange(coins, total):
     :param total: Total amount
     :return: Fewest number of coins or -1 if total cannot be met
     """
-
     if total <= 0:
         return 0
-    count_coins = 0
 
-    # sort the coins from greater
-    coins.sort(reverse=True)
+    coins.sort(reverse=True)  # Sort coins in descending order
+    num_coins = 0
 
-    # use greedy approach to solve the problem:
     for coin in coins:
         if total == 0:
             break
-        if coin < total:
-            # if the coin less than the total take the most
-            poss = total // coin
-            count_coins += poss
-            total -= poss * (coin)
-    return count_coins if total == 0 else -1
+        if coin <= total:
+            poss = total // coin  # Use as many of this coin as possible
+            num_coins += poss
+            # Reduce the total by the coin value times count
+            total -= poss * coin
+
+    return num_coins if total == 0 else -1
