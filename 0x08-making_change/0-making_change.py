@@ -25,7 +25,7 @@ def makeChange(coins, total):
             break
         if coin < total:
             # if the coin less than the total take the most
-            poss = total / coin
+            poss = total // coin
             count_coins += poss
             total -= poss * (coin)
     return count_coins if total == 0 else -1
